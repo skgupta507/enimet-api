@@ -1,5 +1,4 @@
 import { Router } from "express";
-import axios from "axios";
 import {
     TrendingQuery,
     PopularQuery,
@@ -8,15 +7,8 @@ import {
     FavoriteQuery,
     InfoQuery
 } from "./queries.js";
+import { anifetch, getEpisodes, extractGOGO } from "./utils.js";
 const router = Router();
-
-const anifetch = axios.create({
-    baseURL: "https://graphql.anilist.co",
-    headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-    }
-});
 
 router.get("/", async (req, res) => {
     res.status(200).json({
@@ -155,6 +147,7 @@ router.get("/info/:id", async (req, res) => {
                 });
             }
         });
+        const gogoanime = await extractGOGO(id);
         res.status(200).json({
             id: data.data.Media.id,
             title: data.data.Media.title.romaji,
@@ -186,7 +179,8 @@ router.get("/info/:id", async (req, res) => {
             trailer: data.data.Media.trailer
                 ? "https://www.youtube.com/watch?v=" + data.data.Media.trailer.id
                 : data.data.Media.trailer,
-            recommendations
+            recommendations,
+            episodes: await getEpisodes(gogoanime)
         });
     } catch (error) {
         res.status(500).json({ error: error });
