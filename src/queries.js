@@ -10,13 +10,9 @@ export const TrendingQuery = (page, per) => `query {
             id
             title {
                 romaji
-                english
-                native
             }
             coverImage {
-                extraLarge
                 large
-                medium
             }
         }
     }
@@ -32,13 +28,9 @@ export const PopularQuery = (page, per) => `query {
             id
             title {
                 romaji
-                english
-                native
             }
             coverImage {
-                extraLarge
                 large
-                medium
             }
         }
     }
@@ -54,13 +46,9 @@ export const CurrentSeasonQuery = (page, per) => `query {
             id
             title {
                 romaji
-                english
-                native
             }
             coverImage {
-                extraLarge
                 large
-                medium
             }
         }
     }
@@ -76,13 +64,9 @@ export const NextSeasonQuery = (page, per) => `query {
             id
             title {
                 romaji
-                english
-                native
             }
             coverImage {
-                extraLarge
                 large
-                medium
             }
         }
     }
@@ -98,13 +82,52 @@ export const FavoriteQuery = (page, per) => `query {
             id
             title {
                 romaji
-                english
-                native
             }
             coverImage {
-                extraLarge
                 large
-                medium
+            }
+        }
+    }
+}`;
+
+export const InfoQuery = (id) => `query {
+    Media (id: ${id}, type: ANIME) {
+        id
+        title {
+            romaji
+        }
+        coverImage {
+            large
+        }
+        bannerImage
+        description
+        format
+        genres
+        status
+        season
+        seasonYear
+        averageScore
+        trailer {
+            id
+            site
+            thumbnail
+        }
+        studios(isMain: true) {
+            nodes {
+                name
+            }
+        }
+        recommendations {
+            nodes {
+                mediaRecommendation {
+                    id
+                    title {
+                        romaji
+                    }
+                    coverImage {
+                        large
+                    }
+                }
             }
         }
     }
